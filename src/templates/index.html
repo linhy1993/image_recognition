@@ -1,49 +1,50 @@
 <!DOCTYPE html>
-<!--<html lang="en">-->
-<!--<head>-->
-    <!--<meta charset="UTF-8">-->
-    <!--<title>Title</title>-->
-<!--</head>-->
-<!--<body>-->
 
-<!--</body>-->
-<!--</html>-->
-<!--<html lang="en">-->
-{% extends "layout.html" %}
-{% block body %}
-<div class = "container">
-    <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-            <form method=POST action="{{ url_for('login')}}">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Username</label>
-                    <input type="text" class="form-control" name="username" placeholder="Username">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>First_Page</title>
+    <style type="text/css">
+    p.flower {background-image: url(/images/background.jpg); padding: 20px;}
+    </style>
+
+</head>
+<h1 align="center" style="margin-top:10px">This is Image Recognition </h1>
+<img src ="/images/background.jpg" width="100%" height="50%">
+<!--{% extends "layout.html" %}-->
+<!--{% block body %}-->
+
+<body>
+    <div class = "container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <form method=POST action="{{ url_for('login')}}">
+                    <div class="form-group">
+                        <p align="center">
+                            <label for="exampleInputEmail1">Username</label>
+                            <input type="text" class="form-control" name="username" placeholder="Username">
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <p align="center">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input type="password" class="form-control" name="pass" placeholder="Password">
+                        </p>
+                    </div>
+                    <p align="center">
+                        <button type="submit" class="btn btn-primary btn-block">Log In</button>
+                    </p>
+                </form>
+                <br>
+                <div>
+                    <p align="center">
+                    Don't have an account?<a href="{{ url_for('register')}}">Sign up here</a>
+                    </p>
                 </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" name="pass" placeholder="Password">
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">Log In</button>
-            </form>
-            <br>
-            <div>
-                Don't have an account?<a href="{{ url_for('register')}}">Sign up here</a>
             </div>
         </div>
     </div>
-</div>
-{% endblock %}
+<!--{% endblock %}-->
 
-<!--<html lang="en">-->
-<!--<head>-->
-    <!--<meta charset="UTF-8">-->
-    <!--<title>Upload</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--<h1> File Uploader </h1>-->
-<!--<form id="upload-form" action="{{ url_for('upload')}}" method="POST" enctype="multipart/form-data">-->
-    <!--<input typr="file" name="file" accept="image/*" multiple>-->
-    <!--<input typer="submit" value="send">-->
-<!--</form>-->
-<!--</body>-->
-<!--</html>-->
+</body>
+</html>

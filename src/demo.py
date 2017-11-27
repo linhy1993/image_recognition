@@ -36,8 +36,8 @@ mongo = PyMongo(app)
 def index():
     if 'username' in session:
         print("You are logged in! ")
-        return 'You are logged in !' + session['username'] + render_template('upload.html')
-
+        # return 'You are logged in !' + session['username'] + render_template('upload.html')
+        return  render_template('upload.html')
     return render_template('index.html')
 
 
