@@ -10,7 +10,6 @@ from flask_pymongo import PyMongo
 from google.cloud import vision
 from google.cloud.vision import types
 from werkzeug.utils import secure_filename
-import gtts
 from gtts import gTTS
 
 
