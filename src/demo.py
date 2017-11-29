@@ -1,14 +1,18 @@
-import os
-import io
-from flask import Flask, render_template, url_for, request, session, redirect
-from flask_pymongo import PyMongo
-from werkzeug.utils import secure_filename
-import bcrypt
-from flask import send_from_directory
 
+import io
+import os
+
+import bcrypt
+from flask import Flask, render_template, url_for, request, session, redirect
+from flask import send_from_directory
+from flask_pymongo import PyMongo
 # Imports the Google Cloud client library
 from google.cloud import vision
 from google.cloud.vision import types
+from werkzeug.utils import secure_filename
+import gtts
+from gtts import gTTS
+
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'google_application_credentials.json'
 
@@ -16,7 +20,7 @@ APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 UPLOAD_FOLDER = './'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
-
+Description = ''
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -72,9 +76,9 @@ def register():
 
 @app.route('/upload', methods=['POST', 'GET'])
 def upload():
+    global Description, Description
     client = vision.ImageAnnotatorClient()
     image_dir = os.path.join(APP_ROOT, 'images')
-
     if not os.path.isdir(image_dir):
         os.mkdir(image_dir)
 
@@ -97,12 +101,18 @@ def upload():
 
     # Performs label detection on the image file
     labels = client.label_detection(image=image).label_annotations
+    print(labels)
     for label in labels:
         mongo.db.information_image.insert({'filename': uploaded_filename, 'Label': label.description, 'Score': label.score})
+        Description = Description + label.description + ' '
+        tts = gTTS(text=Description, lang='en')
+        tts.save("./music/test.mp3")
+
     label_scores = list(map(lambda label: label.score, labels))
+
     print('The following label has been save to mongodb: {0}'.format(label_scores))
 
-    return render_template("complete.html", image_name=uploaded_filename)
+    return render_template("complete.html", image_name=uploaded_filename, labels=labels)
 
 
 @app.route('/uploads/<filename>')
