@@ -76,6 +76,7 @@ def register():
 @app.route('/upload', methods=['POST', 'GET'])
 def upload():
     global Description, Description
+    global Music_path, Music_path
     client = vision.ImageAnnotatorClient()
     image_dir = os.path.join(APP_ROOT, 'images')
     if not os.path.isdir(image_dir):
@@ -104,14 +105,16 @@ def upload():
     for label in labels:
         mongo.db.information_image.insert({'filename': uploaded_filename, 'Label': label.description, 'Score': label.score})
         Description = Description + label.description + ' '
-        tts = gTTS(text=Description, lang='en')
-        tts.save("./music/test.mp3")
+
+    tts = gTTS(text=Description, lang='en')
+    tts.save("./images/" + file.filename + ".mp3")
+    Music_path = file.filename + ".mp3"
 
     label_scores = list(map(lambda label: label.score, labels))
 
     print('The following label has been save to mongodb: {0}'.format(label_scores))
 
-    return render_template("complete.html", image_name=uploaded_filename, labels=labels)
+    return render_template("complete.html", image_name=uploaded_filename, labels=labels, Music_path=Music_path)
 
 
 @app.route('/uploads/<filename>')
